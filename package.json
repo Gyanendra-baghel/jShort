@@ -1,0 +1,12 @@
+{
+  "name": "jshort",
+  "version": "0.0.1",
+  "description": "small dom manipulation library",
+  "type":"module",
+  "main": "dist/jshort.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "gyanendra-baghel",
+  "license": "MIT"
+}

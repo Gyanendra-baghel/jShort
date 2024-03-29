@@ -1,73 +1,5 @@
-if (!String.prototype.trim) {
-  String.prototype.trim = function() {
-    return this.replace(/^\s+|\s+$/gm, '');
-  };
-}
-if (!String.prototype.camelCase) {
-  String.prototype.camelCase = function() {
-    return this.replace(/-([a-z])/ig, function(all, letter) {
-      return letter.toUpperCase();
-    });
-  };
-}
-
-function jShort(obj) {
-  'strict_mode';
-  if (this === window) {
-    return new jShort(obj);
-  }
-  if (typeof obj === 'function') {
-    var readyFn = obj;
-    document.addEventListener('DOMContentLoaded', readyFn);
-  }
-}
-
-jShort.ajax = function(obj) {
-  if (typeof obj == 'object') {
-    var xhttp;
-    if (window.XMLHttpRequest) {
-      xhttp = new XMLHttpRequest();
-    } else {
-      xhttp = new ActiveXObject("Microsoft.XMLHTTP");
-    }
-
-    if (obj.url && obj.data) {
-      console.log(obj.url);
-      if (obj.method == 'get') {
-        xhttp.open("GET", obj.url+'?'+obj.data);
-        xhttp.send();
-      } else if (obj.method == 'post') {
-        xhttp.open("POST", obj.url);
-        xhttp.send(obj.data);
-      }
-    }
-    xhttp.onreadystatechange = function() {
-      if (this.readyState == 4 && this.status == 200) {
-        obj.sucess(this.responseText);
-      }
-    };
-  }
-};
-jShort.prototype.ajax = function(obj) {
-  return jShort.ajax(obj);
-};
-
-function log(err, fun) {
-  throw 'Invalid parameter passed in '+fun+'('+err+')';
-}
-
-var getStyle = (function() {
-  if (typeof getComputedStyle !== 'undefined') {
-    return function (el, prop) {
-      return getComputedStyle(el, null).getPropertyValue(prop);
-    };
-  } else {
-    return function (el, prop) {
-      return getCurrentStyle(el, prop);
-    };
-  }
-}());
-(function(window) {
+var jShort = (function() {
+  'use strict';
   function DOM(obj) {
     'strict_mode';
     if (this === window) {
@@ -295,13 +227,7 @@ var getStyle = (function() {
     return this.el.style.display = 'none';
   }
 
-  /***    CHANGABLE FUNCTION    ***/
-  if (typeof window.$ === 'undefined') {
-    window.$ = DOM;
-    document.addEventListener('DOMContentLoaded', function() {
-      console.log(' DOM :: Ready to jStart ... ');
-    })
-  } else {
-    console.log(' DOM :: not working remove f (var/func) ');
-  }
-}(window));
+  return DOM;
+})();
+
+export { jShort, jShort as $ };
